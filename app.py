@@ -5,7 +5,7 @@ import json
 
 app = Flask(__name__)
 
-root = '/moneydroid/api/v1.0'
+root = '/moneydroid/api/v1.0/ashu'
 
 transactions = [
     {
@@ -41,7 +41,7 @@ def get_transaction(transaction_id):
 def not_found(error):
     return make_response(jsonify( { 'error': 'Not found' } ), 404)
 
-@app.route(root + '/tasks', methods = ['POST'])
+@app.route(root + '/transactions', methods = ['POST'])
 def create_transaction():
     if not request.json or not 'title' in request.json:
         abort(400)

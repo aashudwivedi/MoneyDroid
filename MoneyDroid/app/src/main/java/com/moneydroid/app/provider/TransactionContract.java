@@ -7,7 +7,7 @@ import android.provider.BaseColumns;
  * Created by ashu on 5/4/14.
  */
 public class TransactionContract {
-    public static final String CONTENT_AUTHORITY = "com.moneydroid.app";
+    public static final String CONTENT_AUTHORITY = "com.moneydroid.app.provider";
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
