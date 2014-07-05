@@ -9,11 +9,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     
     <string-array name="currencies">
-        <item name="Doller"></item>
-        <item name="Indian Rupee"></item>
-        <item name="Korean Won"></item>
-        <item name="Hong Kong Doller"></item>
-        <item name="Aus Doller"></item>
+        <item name="doller">Doller</item>
+        <item name="inr">Indian Rupee</item>
+        <item name="kr_won">Korean Won</item>
+        <item name="hk_doller">Hong Kong Doller</item>
+        <item name="aus_doller">Australian Doller</item>
     </string-array>
 
     <string name="description_sign_in_main"><![CDATA[
@@ -31,5 +31,7 @@
         However you are not limited by the currency you choose. You can modify the
         currency on per transaction basis if you like.
     ]]></string>
+
+    <string name="finish">Finish</string>
 
 </resources>

@@ -2,24 +2,29 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
+              android:padding="32dp"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <TextView
             android:id="@+id/choose_currency_description"
             android:text="@string/description_currency_chooser"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="32dp"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"/>
 
+    <!-- TODO: replace the spinner with a listview and remove the finish button,
+    when user chooses the currency he's taken to the main page of app automatically -->
     <Spinner
             android:id="@+id/default_currency_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:entries="@array/currencies"/>
 
     <Button
-            android:id="@+id/btnSubmit"
+            android:id="@+id/btnFinish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Submit" />
+            android:gravity="center"
+            android:text="@string/finish" />
 </LinearLayout>

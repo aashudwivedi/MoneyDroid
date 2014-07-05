@@ -1,5 +1,7 @@
 package com.moneydroid.app.ui;
 
+import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
@@ -93,8 +96,18 @@ public class AccountActivity extends FragmentActivity {
     public static class DefaultCurrencyChooserFragment extends Fragment {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+            final Activity activity = getActivity();
+
             ViewGroup rootView = (ViewGroup) inflater.inflate(
                     R.layout.fragment_currency_chooser, container, false);
+            Button finishBtn = (Button)rootView.findViewById(R.id.btnFinish);
+
+            finishBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((AccountActivity)activity).finishSetup();
+                }
+            });
             return rootView;
         }
     }
@@ -128,5 +141,10 @@ public class AccountActivity extends FragmentActivity {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mFbUiHelper.onSaveInstanceState(outState);
+    }
+
+    private void finishSetup() {
+        startActivity(mFinishIntent);
+        finish();
     }
 }
