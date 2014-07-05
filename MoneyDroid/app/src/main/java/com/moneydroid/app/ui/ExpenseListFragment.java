@@ -19,7 +19,7 @@ import com.moneydroid.app.provider.TransactionContract;
 /**
  * Created by ashu on 23/5/14.
  */
-public class TransactionFragment extends ListFragment implements
+public class ExpenseListFragment extends ListFragment implements
         LoaderManager.LoaderCallbacks<Cursor>{
 
     SimpleCursorAdapter mTransactionAdapter;

@@ -6,26 +6,22 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
-import android.widget.ListView;
 import com.moneydroid.app.R;
 import com.moneydroid.app.provider.TransactionContract;
 
 import static com.moneydroid.app.util.LogUtils.LOGE;
 import static com.moneydroid.app.util.LogUtils.makeLogTag;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements
+        ActionBar.TabListener, ViewPager.OnPageChangeListener{
 
     private ViewPager mViewPager;
 
@@ -46,6 +42,18 @@ public class MainActivity extends BaseActivity {
         if(mViewPager != null) {
             mViewPager.setAdapter(new HomePagerAdapter(getSupportFragmentManager()));
         }
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        actionBar.addTab(actionBar.newTab()
+                .setText(R.string.add)
+                .setTabListener(this));
+        actionBar.addTab(actionBar.newTab()
+                .setText(R.string.expense_list)
+                .setTabListener(this));
+        actionBar.addTab(actionBar.newTab()
+                .setText(R.string.summery)
+                .setTabListener(this));
 
         mAccount = createSyncAccount(this);
         requestImmediateSync();
@@ -86,7 +94,34 @@ public class MainActivity extends BaseActivity {
         return newAccount;
     }
 
-   private class HomePagerAdapter extends FragmentPagerAdapter {
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        getSupportActionBar().setSelectedNavigationItem(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+        mViewPager.setCurrentItem(tab.getPosition());
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+    }
+
+    private class HomePagerAdapter extends FragmentPagerAdapter {
        public HomePagerAdapter(FragmentManager fm) {
            super(fm);
        }
@@ -95,14 +130,16 @@ public class MainActivity extends BaseActivity {
        public Fragment getItem(int position) {
            switch (position) {
                case 0:
-                   return new TransactionFragment();
+                   return new AddExpenseFragment();
                case 1:
-                   return new TransactionFragment();
+                   return new ExpenseListFragment();
+               case 2:
+                   return new ExpenseSummeryFragment();
            }
            return null;
        }
 
-       public int getCount() {return 2;}
+        public int getCount() {return 3;}
    }
 
     public void requestImmediateSync() {

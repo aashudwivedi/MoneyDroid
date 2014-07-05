@@ -33,5 +33,12 @@
     ]]></string>
 
     <string name="finish">Finish</string>
+    <string name="amount">Amount</string>
+    <string name="currency">Currency</string>
+    <string name="desc">Description</string>
+    <string name="people_involved">People Involved</string>
+    <string name="add">Add</string>
+    <string name="expense_list">Expense List</string>
+    <string name="summery">Summery</string>
 
 </resources>
