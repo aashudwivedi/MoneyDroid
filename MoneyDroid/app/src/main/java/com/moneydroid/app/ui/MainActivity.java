@@ -25,7 +25,7 @@ import com.moneydroid.app.provider.TransactionContract;
 import static com.moneydroid.app.util.LogUtils.LOGE;
 import static com.moneydroid.app.util.LogUtils.makeLogTag;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends BaseActivity {
 
     private ViewPager mViewPager;
 
@@ -49,7 +49,6 @@ public class MainActivity extends ActionBarActivity {
 
         mAccount = createSyncAccount(this);
         requestImmediateSync();
-
     }
 
 
