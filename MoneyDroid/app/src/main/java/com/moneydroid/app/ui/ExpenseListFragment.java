@@ -1,17 +1,11 @@
 package com.moneydroid.app.ui;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.CursorAdapter;
-import android.text.Selection;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.SimpleCursorAdapter;
 import com.moneydroid.app.R;
 import com.moneydroid.app.provider.TransactionContract;
@@ -40,7 +34,7 @@ public class ExpenseListFragment extends ListFragment implements
     public Loader onCreateLoader(int id, Bundle args) {
         String selection = null;
         return new CursorLoader(getActivity(),
-                TransactionContract.CONTENT_URI,
+                TransactionContract.Transactions.CONTENT_URI,
                 TransactionQuery.PROJECTION,
                 null, // current selection is null, will be changed later
                 null,
@@ -67,8 +61,8 @@ public class ExpenseListFragment extends ListFragment implements
 
         String [] PROJECTION = {
                 TransactionContract.TransactionColumns.TRANSACTION_ID,
-                TransactionContract.TransactionColumns.TITLE,
                 TransactionContract.TransactionColumns.DESC,
+                TransactionContract.TransactionColumns.CURRENCY,
                 TransactionContract.TransactionColumns.AMOUNT
         };
     }

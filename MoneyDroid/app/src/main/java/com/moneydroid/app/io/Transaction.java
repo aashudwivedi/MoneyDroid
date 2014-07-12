@@ -1,12 +1,14 @@
 package com.moneydroid.app.io;
 
+import java.util.List;
+
 /**
  * Created by ashu on 6/4/14.
  */
 public class Transaction {
-    public int transactionId;
-    public String title;
-    public String description;
+    public int id;
+    public String desc;
     public float amount;
     public String currency;
+    public List<Split> splits;
 }

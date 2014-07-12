@@ -1,7 +1,82 @@
 package com.moneydroid.app.sync;
 
+import android.content.ContentProviderOperation;
+import android.content.Context;
+import android.content.OperationApplicationException;
+import android.os.RemoteException;
+import com.moneydroid.app.io.RestClient;
+import com.moneydroid.app.io.Split;
+import com.moneydroid.app.io.Transaction;
+import com.moneydroid.app.provider.TransactionContract;
+import com.moneydroid.app.provider.TransactionContract.SplitsColumns;
+import com.moneydroid.app.provider.TransactionContract.TransactionColumns;
+import retrofit.RestAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.moneydroid.app.util.LogUtils.makeLogTag;
+
 /**
  * Created by ashu on 10/6/14.
  */
 public class SyncHelper {
+    private Context mContext;
+
+    private static final String LOG_TAG = makeLogTag(SyncHelper.class);
+
+    public SyncHelper(final Context context) {
+        mContext = context;
+    }
+
+    private void buildBatchOperationsFromTransaction(
+            List<ContentProviderOperation> batch, List<Transaction> transactions) {
+        for(Transaction transaction: transactions) {
+            ContentProviderOperation.Builder builder = ContentProviderOperation
+                    .newInsert(TransactionContract.Transactions.CONTENT_URI);
+            builder.withValue(TransactionColumns.TRANSACTION_ID, transaction.id);
+            builder.withValue(TransactionColumns.AMOUNT, transaction.amount);
+            builder.withValue(TransactionColumns.DESC, transaction.desc);
+            builder.withValue(TransactionColumns.CURRENCY, transaction.currency);
+            batch.add(builder.build());
+
+            builder = ContentProviderOperation.newInsert(
+                    TransactionContract.Splits.CONTENT_URI);
+            for(Split split: transaction.splits) {
+                builder.withValue(SplitsColumns.SPLIT_ID, split.Id);
+                builder.withValue(SplitsColumns.TRANSACTION_ID, transaction.id);
+                builder.withValue(SplitsColumns.USER_ID, split.userId);
+                builder.withValue(SplitsColumns.SHARE, split.share);
+            }
+            batch.add(builder.build());
+        }
+    }
+
+    public void performSync() {
+        RestAdapter restAdapter = RestClient.getAdapter();
+        RestClient.UserTransactions userTransactions = restAdapter.create(
+                RestClient.UserTransactions.class);
+
+        List<Transaction> transactions = userTransactions.transactions("ashu");
+
+        ArrayList<ContentProviderOperation> batch =
+                new ArrayList<ContentProviderOperation>();
+
+        // delete all the shares first followed by all transactions
+        batch.add(ContentProviderOperation.newDelete(
+                TransactionContract.Splits.CONTENT_URI).build());
+        batch.add(ContentProviderOperation.newDelete(
+                TransactionContract.Transactions.CONTENT_URI).build());
+
+        buildBatchOperationsFromTransaction(batch, transactions);
+
+        try {
+            mContext.getContentResolver().applyBatch(
+                    TransactionContract.CONTENT_AUTHORITY, batch);
+        } catch(OperationApplicationException e) {
+            e.printStackTrace();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
 }

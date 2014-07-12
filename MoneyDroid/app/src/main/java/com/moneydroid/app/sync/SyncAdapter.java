@@ -3,13 +3,7 @@ package com.moneydroid.app.sync;
 import android.accounts.Account;
 import android.content.*;
 import android.os.Bundle;
-import android.util.Log;
-import com.moneydroid.app.io.RestClient;
-import com.moneydroid.app.io.Transaction;
 import com.moneydroid.app.util.LogUtils;
-import retrofit.RestAdapter;
-
-import java.util.List;
 
 import static com.moneydroid.app.util.LogUtils.LOGD;
 
@@ -20,10 +14,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     public static final String TAG = LogUtils.makeLogTag(SyncAdapter.class);
 
-    ContentResolver mContentResolver;
+    private ContentResolver mContentResolver;
+    private SyncHelper mSyncHelper;
+    private Context mContext;
 
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
+        mContext = context;
         mContentResolver = context.getContentResolver();
     }
 
@@ -36,15 +33,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority,
                               ContentProviderClient provider, SyncResult syncResult) {
-        /*LOGD(TAG, "onPerformSyncCalled");
-        RestAdapter restAdapter = RestClient.getAdapter();
-        RestClient.UserTransactions userTransactions = restAdapter.create(
-                RestClient.UserTransactions.class);
+        LOGD(TAG, "performing sync");
 
-        List<Transaction> transactions = userTransactions.transactions("ashu");
-
-        for(Transaction transaction: transactions) {
-            Log.d("ashu", transaction.title);
-        }*/
+        if(mSyncHelper == null) {
+            mSyncHelper = new SyncHelper(mContext);
+        }
+        mSyncHelper.performSync();
     }
 }

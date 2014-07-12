@@ -24,6 +24,7 @@ public class TransactionsDatabase extends SQLiteOpenHelper {
 
     interface Tables {
         String TRANSACTIONS = "transactions";
+        String SHARES = "shares";
     }
 
     public TransactionsDatabase(Context context) {
@@ -33,15 +34,20 @@ public class TransactionsDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE" + Tables.TRANSACTIONS + " ("
-                + BaseColumns._ID + "INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + TransactionColumns.TRANSACTION_ID + " TEXT NOT NULL,"
-                + TransactionColumns.TITLE + " TEXT NOT NULL,"
-                + TransactionColumns.AMOUNT + "INTEGER NOT NULL,"
-                + TransactionColumns.DESC + "TEXT,"
-                //+ TransactionColumns.IS_EQUAL_SPLIT + "INTEGER"
-                //+ TransactionColumns.PEOPLE_INVOLVED + " TEXT,"
-                + "UNIQUE (" + TransactionColumns.TRANSACTION_ID + ")");
+        db.execSQL("CREATE TABLE " + Tables.TRANSACTIONS + " ("
+                + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + TransactionColumns.TRANSACTION_ID + " INTEGER NOT NULL,"
+                + TransactionColumns.AMOUNT + " INTEGER NOT NULL,"
+                + TransactionColumns.DESC + " TEXT,"
+                + TransactionColumns.CURRENCY + " TEXT )");
+                //+ "UNIQUE (" + TransactionColumns.TRANSACTION_ID + ") )");
+
+        db.execSQL("CREATE TABLE " + Tables.SHARES + " ("
+                + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + TransactionContract.SplitsColumns.SPLIT_ID + " INGETER NOT NULL,"
+                + TransactionContract.SplitsColumns.TRANSACTION_ID + " INTEGER NOT NULL,"
+                + TransactionContract.SplitsColumns.USER_ID + " STRING NOT NULL,"
+                + TransactionContract.SplitsColumns.SHARE + " INTEGER NOT NULL )");
     }
 
     @Override

@@ -5,10 +5,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 import static com.moneydroid.app.util.LogUtils.makeLogTag;
 import static com.moneydroid.app.provider.TransactionContract.Transactions;
+import static com.moneydroid.app.provider.TransactionContract.Splits;
+import static com.moneydroid.app.provider.TransactionsDatabase.Tables;
 
 /**
  * Created by ashu on 5/4/14.
@@ -25,6 +28,7 @@ public class TransactionsProvider extends ContentProvider {
     private static final int TRANSACTIONS_BETWEEN = 101;
     private static final int TRANSACTIONS_ID = 102;
     private static final int TRANSACTION_WITH_USER = 104;
+    private static final int SPLITS = 105;
 
     private static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -34,6 +38,7 @@ public class TransactionsProvider extends ContentProvider {
         matcher.addURI(authority, "transactions/between/*/*", TRANSACTIONS_BETWEEN);
         matcher.addURI(authority, "transactions/*", TRANSACTIONS_ID);
         matcher.addURI(authority, "transactions/user/*", TRANSACTION_WITH_USER);
+        matcher.addURI(authority, "splits", SPLITS);
 
         return matcher;
     }
@@ -73,7 +78,22 @@ public class TransactionsProvider extends ContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
+        final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+        final int match = sUriMatcher.match(uri);
+        switch(match) {
+            case TRANSACTIONS:
+                db.insertOrThrow(Tables.TRANSACTIONS, null, values);
+                return Transactions.buildTransactionUri(values.getAsInteger(Transactions.TRANSACTION_ID));
+            case SPLITS:
+                db.insertOrThrow(Tables.SHARES, null, values);
+                return Transactions.buildTransactionUri(values.getAsInteger(Splits.SPLIT_ID));
+        }
         return null;
+    }
+
+    private void notifyChanage(Uri uri, boolean syncToNetwork) {
+        Context context = getContext();
+        context.getContentResolver().notifyChange(uri, null, syncToNetwork);
     }
 
     @Override

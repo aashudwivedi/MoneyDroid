@@ -1,25 +1,15 @@
 package com.moneydroid.app;
 
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
+import android.view.*;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.moneydroid.app.io.RestClient;
+import com.moneydroid.app.io.RestClient.UserTransactions;
 import com.moneydroid.app.io.Transaction;
 import retrofit.RestAdapter;
-
-import com.moneydroid.app.io.RestClient.*;
 
 import java.util.List;
 
@@ -80,7 +70,7 @@ public class TestActivity extends ActionBarActivity {
                     List<Transaction> transactions = userTransactions.transactions("ashu");
 
                     for(Transaction transaction: transactions) {
-                        Log.d("ashu", transaction.title);
+                        Log.d("ashu", transaction.desc);
                     }
                 }
             });

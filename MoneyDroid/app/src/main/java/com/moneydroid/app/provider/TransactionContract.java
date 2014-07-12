@@ -13,26 +13,46 @@ public class TransactionContract {
 
     public static final String PATH_TRANSACTIONS = "transactions";
 
-    public static final Uri CONTENT_URI =
-            BASE_CONTENT_URI.buildUpon().appendEncodedPath(PATH_TRANSACTIONS).build();
+    public static final String PATH_SPLITS = "splits";
 
     public interface TransactionColumns {
         String TRANSACTION_ID = "transaction_id";
         String AMOUNT = "transaction_amount";
-        String TITLE = "transaction_title";
+        String CURRENCY = "currency";
         String DESC = "transaction_desc";
-        //String IS_EQUAL_SPLIT = "is_equal_split";
-        // String PEOPLE_INVOLVED = "people_involved";
+    }
+
+    public interface SplitsColumns {
+        String SPLIT_ID = "split_id";
+        String TRANSACTION_ID = "transaction_id";
+        String USER_ID = "user_id";
+        String SHARE = "share";
+
     }
 
     public static class Transactions implements TransactionColumns, BaseColumns {
-        public static final String TRANSACTION_TYPE_GENERIC = "generic";
-
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_TRANSACTIONS).build();
 
         public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.moneydroid.transaction";
 
         public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.moneydroid.transaction";
+
+        public static Uri buildTransactionUri(int transactionId) {
+            return CONTENT_URI.buildUpon().appendPath(String.valueOf(transactionId)).build();
+        }
+    }
+
+    public static class Splits implements SplitsColumns, BaseColumns {
+        public static final Uri CONTENT_URI =
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_SPLITS).build();
+
+        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.moneydroid.split";
+
+        public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.moneydroid.split";
+
+        public Uri buildSplitUri(int splitId) {
+            return CONTENT_URI.buildUpon().appendPath(String.valueOf(splitId)).build();
+        }
     }
 }
