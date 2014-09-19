@@ -1,4 +1,4 @@
-package com.moneydroid.app.ui;
+package com.moneydroid.app.sync;
 
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;

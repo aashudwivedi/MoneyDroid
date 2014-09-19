@@ -42,7 +42,7 @@
         </activity>
 
         <service
-                android:name="com.moneydroid.app.ui.AuthenticatorService">
+                android:name=".sync.AuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>

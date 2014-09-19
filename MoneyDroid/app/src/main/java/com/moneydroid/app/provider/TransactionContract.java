@@ -26,7 +26,7 @@ public class TransactionContract {
         String SPLIT_ID = "split_id";
         String TRANSACTION_ID = "transaction_id";
         String USER_ID = "user_id";
-        String SHARE = "share";
+        String SHARE = "split";
 
     }
 

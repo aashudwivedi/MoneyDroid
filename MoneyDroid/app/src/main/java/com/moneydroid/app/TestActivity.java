@@ -67,7 +67,7 @@ public class TestActivity extends ActionBarActivity {
                     RestAdapter restAdapter = RestClient.getAdapter();
                     UserTransactions userTransactions = restAdapter.create(UserTransactions.class);
 
-                    List<Transaction> transactions = userTransactions.transactions("ashu");
+                    List<Transaction> transactions = userTransactions.getTransactions("");
 
                     for(Transaction transaction: transactions) {
                         Log.d("ashu", transaction.desc);

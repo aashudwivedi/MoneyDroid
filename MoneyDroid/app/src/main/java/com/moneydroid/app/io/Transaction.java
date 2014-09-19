@@ -10,5 +10,6 @@ public class Transaction {
     public String desc;
     public float amount;
     public String currency;
+    public String paidBy;
     public List<Split> splits;
 }

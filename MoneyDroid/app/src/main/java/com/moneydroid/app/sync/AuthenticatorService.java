@@ -1,8 +1,9 @@
-package com.moneydroid.app.ui;
+package com.moneydroid.app.sync;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import com.moneydroid.app.sync.Authenticator;
 
 /**
  * A bound Service that instantiates the authenticator

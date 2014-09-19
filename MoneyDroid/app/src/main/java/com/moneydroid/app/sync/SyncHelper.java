@@ -3,6 +3,7 @@ package com.moneydroid.app.sync;
 import android.content.ContentProviderOperation;
 import android.content.Context;
 import android.content.OperationApplicationException;
+import android.os.Handler;
 import android.os.RemoteException;
 import com.moneydroid.app.io.RestClient;
 import com.moneydroid.app.io.Split;
@@ -10,7 +11,11 @@ import com.moneydroid.app.io.Transaction;
 import com.moneydroid.app.provider.TransactionContract;
 import com.moneydroid.app.provider.TransactionContract.SplitsColumns;
 import com.moneydroid.app.provider.TransactionContract.TransactionColumns;
+import org.json.JSONObject;
+import retrofit.Callback;
 import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +50,8 @@ public class SyncHelper {
             for(Split split: transaction.splits) {
                 builder.withValue(SplitsColumns.SPLIT_ID, split.Id);
                 builder.withValue(SplitsColumns.TRANSACTION_ID, transaction.id);
-                builder.withValue(SplitsColumns.USER_ID, split.userId);
-                builder.withValue(SplitsColumns.SHARE, split.share);
+                builder.withValue(SplitsColumns.USER_ID, split.userid);
+                builder.withValue(SplitsColumns.SHARE, split.split);
             }
             batch.add(builder.build());
         }
@@ -56,8 +61,7 @@ public class SyncHelper {
         RestAdapter restAdapter = RestClient.getAdapter();
         RestClient.UserTransactions userTransactions = restAdapter.create(
                 RestClient.UserTransactions.class);
-
-        List<Transaction> transactions = userTransactions.transactions("ashu");
+        List<Transaction> transactions = userTransactions.getTransactions("ashu");
 
         ArrayList<ContentProviderOperation> batch =
                 new ArrayList<ContentProviderOperation>();
@@ -78,5 +82,29 @@ public class SyncHelper {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+    }
+
+    public void sendNewTransactions(List<Transaction> transactions) {
+        RestAdapter restAdapter = RestClient.getAdapter();
+        restAdapter.setLogLevel(RestAdapter.LogLevel.FULL);
+        RestClient.UserTransactions userTransactions = restAdapter.create(
+                RestClient.UserTransactions.class);
+        for(Transaction t: transactions) {
+            userTransactions.addTransaction(t, new Callback<JSONObject>() {
+                @Override
+                public void success(JSONObject jsonObject, Response response) {
+
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+
+                }
+            });
+        }
+    }
+
+    public List<Transaction> getTransactions() {
+        return null;
     }
 }
