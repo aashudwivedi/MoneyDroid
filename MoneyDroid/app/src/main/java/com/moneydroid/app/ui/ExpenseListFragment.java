@@ -6,6 +6,9 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.SimpleCursorAdapter;
 import com.moneydroid.app.R;
 import com.moneydroid.app.provider.TransactionContract;
@@ -28,6 +31,13 @@ public class ExpenseListFragment extends ListFragment implements
                 null,
                 null);
 
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.expense_list, container, false);
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
