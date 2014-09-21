@@ -36,8 +36,9 @@ public class ExpenseListFragment extends ListFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.expense_list, container, false);
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return view;
     }
 
     @Override
