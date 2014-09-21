@@ -16,7 +16,7 @@ public class RestClient {
 
     public interface UserTransactions {
         @GET("/transactions/")
-        List<Transaction> getTransactions ();
+        Transactions getTransactions ();
 
         @POST("/transactions/")
         void addTransaction(@Body Transaction t, Callback<JSONObject> callback);

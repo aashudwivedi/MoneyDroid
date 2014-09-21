@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.moneydroid.app.io.RestClient;
 import com.moneydroid.app.io.RestClient.UserTransactions;
 import com.moneydroid.app.io.Transaction;
+import com.moneydroid.app.io.Transactions;
+
 import retrofit.RestAdapter;
 
 import java.util.List;
@@ -67,9 +69,9 @@ public class TestActivity extends ActionBarActivity {
                     RestAdapter restAdapter = RestClient.getAdapter();
                     UserTransactions userTransactions = restAdapter.create(UserTransactions.class);
 
-                    List<Transaction> transactions = userTransactions.getTransactions("");
+                    Transactions transactions= userTransactions.getTransactions();
 
-                    for(Transaction transaction: transactions) {
+                    for(Transaction transaction: transactions.results) {
                         Log.d("ashu", transaction.desc);
                     }
                 }

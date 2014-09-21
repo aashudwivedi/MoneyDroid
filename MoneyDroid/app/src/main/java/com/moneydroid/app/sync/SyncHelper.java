@@ -8,6 +8,7 @@ import android.os.RemoteException;
 import com.moneydroid.app.io.RestClient;
 import com.moneydroid.app.io.Split;
 import com.moneydroid.app.io.Transaction;
+import com.moneydroid.app.io.Transactions;
 import com.moneydroid.app.provider.TransactionContract;
 import com.moneydroid.app.provider.TransactionContract.SplitsColumns;
 import com.moneydroid.app.provider.TransactionContract.TransactionColumns;
@@ -61,7 +62,7 @@ public class SyncHelper {
         RestAdapter restAdapter = RestClient.getAdapter();
         RestClient.UserTransactions userTransactions = restAdapter.create(
                 RestClient.UserTransactions.class);
-        List<Transaction> transactions = userTransactions.getTransactions();
+        Transactions transactions = userTransactions.getTransactions();
 
         ArrayList<ContentProviderOperation> batch =
                 new ArrayList<ContentProviderOperation>();
@@ -72,7 +73,7 @@ public class SyncHelper {
         batch.add(ContentProviderOperation.newDelete(
                 TransactionContract.Transactions.CONTENT_URI).build());
 
-        buildBatchOperationsFromTransaction(batch, transactions);
+        buildBatchOperationsFromTransaction(batch, transactions.results);
 
         try {
             mContext.getContentResolver().applyBatch(
