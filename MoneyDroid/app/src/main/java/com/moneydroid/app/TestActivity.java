@@ -62,25 +62,6 @@ public class TestActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_test, container, false);
-
-            Thread thread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    RestAdapter restAdapter = RestClient.getAdapter();
-                    UserTransactions userTransactions = restAdapter.create(UserTransactions.class);
-
-                    Transactions transactions= userTransactions.getTransactions();
-
-                    for(Transaction transaction: transactions.results) {
-                        Log.d("ashu", transaction.desc);
-                    }
-                }
-            });
-            thread.start();
-
-            TextView helloTextView = (TextView)rootView.findViewById(R.id.helloTextView);
-            helloTextView.setText("hi");
-
             return rootView;
         }
     }
