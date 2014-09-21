@@ -61,7 +61,7 @@ public class SyncHelper {
         RestAdapter restAdapter = RestClient.getAdapter();
         RestClient.UserTransactions userTransactions = restAdapter.create(
                 RestClient.UserTransactions.class);
-        List<Transaction> transactions = userTransactions.getTransactions("ashu");
+        List<Transaction> transactions = userTransactions.getTransactions();
 
         ArrayList<ContentProviderOperation> batch =
                 new ArrayList<ContentProviderOperation>();
