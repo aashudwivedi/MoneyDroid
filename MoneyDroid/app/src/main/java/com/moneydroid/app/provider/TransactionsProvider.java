@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 
 import static com.moneydroid.app.util.LogUtils.makeLogTag;
@@ -73,9 +74,25 @@ public class TransactionsProvider extends ContentProvider {
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
-        return null;
+        final SQLiteDatabase db = mOpenHelper.getReadableDatabase();
+        final int match = sUriMatcher.match(uri);
+        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+        switch (match) {
+            case TRANSACTIONS:
+            case TRANSACTIONS_ID:
+                queryBuilder.setTables(Tables.TRANSACTIONS);
+                break;
+        }
+        Cursor c = queryBuilder.query(db,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder);
+        c.setNotificationUri(getContext().getContentResolver(), uri);
+        return c;
     }
-
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();

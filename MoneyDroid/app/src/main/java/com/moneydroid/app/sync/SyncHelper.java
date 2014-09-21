@@ -11,7 +11,6 @@ import com.moneydroid.app.io.Transaction;
 import com.moneydroid.app.io.Transactions;
 import com.moneydroid.app.provider.TransactionContract;
 import com.moneydroid.app.provider.TransactionContract.SplitsColumns;
-import com.moneydroid.app.provider.TransactionContract.TransactionColumns;
 import org.json.JSONObject;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -40,10 +39,10 @@ public class SyncHelper {
         for(Transaction transaction: transactions) {
             ContentProviderOperation.Builder builder = ContentProviderOperation
                     .newInsert(TransactionContract.Transactions.CONTENT_URI);
-            builder.withValue(TransactionColumns.TRANSACTION_ID, transaction.id);
-            builder.withValue(TransactionColumns.AMOUNT, transaction.amount);
-            builder.withValue(TransactionColumns.DESC, transaction.desc);
-            builder.withValue(TransactionColumns.CURRENCY, transaction.currency);
+            builder.withValue(TransactionContract.Transactions.TRANSACTION_ID, transaction.id);
+            builder.withValue(TransactionContract.Transactions.AMOUNT, transaction.amount);
+            builder.withValue(TransactionContract.Transactions.DESC, transaction.desc);
+            builder.withValue(TransactionContract.Transactions.CURRENCY, transaction.currency);
             batch.add(builder.build());
 
             builder = ContentProviderOperation.newInsert(

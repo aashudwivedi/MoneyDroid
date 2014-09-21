@@ -15,7 +15,7 @@ public class TransactionContract {
 
     public static final String PATH_SPLITS = "splits";
 
-    public interface TransactionColumns {
+    protected interface TransactionColumns {
         String TRANSACTION_ID = "transaction_id";
         String AMOUNT = "transaction_amount";
         String CURRENCY = "currency";
