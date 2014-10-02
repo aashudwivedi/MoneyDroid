@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.util.Log;
 
 import static com.moneydroid.app.util.LogUtils.makeLogTag;
 import static com.moneydroid.app.provider.TransactionContract.Transactions;
@@ -93,11 +94,12 @@ public class TransactionsProvider extends ContentProvider {
         c.setNotificationUri(getContext().getContentResolver(), uri);
         return c;
     }
+
     @Override
     public Uri insert(Uri uri, ContentValues values) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
-        switch(match) {
+        switch (match) {
             case TRANSACTIONS:
                 db.insertOrThrow(Tables.TRANSACTIONS, null, values);
                 return Transactions.buildTransactionUri(values.getAsInteger(Transactions.TRANSACTION_ID));
@@ -115,11 +117,29 @@ public class TransactionsProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
+        final SQLiteDatabase db = mOpenHelper.getReadableDatabase();
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case TRANSACTIONS:
+                return db.delete(Tables.TRANSACTIONS, selection, selectionArgs);
+            case SPLITS:
+                return db.delete(Tables.SHARES, selection, selectionArgs);
+            default:
+                throw new UnsupportedOperationException("Unsupported Operation");
+        }
     }
 
     @Override
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-        return 0;
+        final SQLiteDatabase db = mOpenHelper.getReadableDatabase();
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case TRANSACTIONS:
+                return db.update(Tables.TRANSACTIONS, values, selection, selectionArgs);
+            case SPLITS:
+                return db.update(Tables.SHARES, values, selection, selectionArgs);
+            default:
+                throw  new UnsupportedOperationException("Unsupported operation");
+        }
     }
 }
