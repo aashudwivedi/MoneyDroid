@@ -3,6 +3,7 @@ package com.moneydroid.app.ui;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import com.moneydroid.app.R;
 import com.moneydroid.app.io.Split;
 import com.moneydroid.app.io.Transaction;
 import com.moneydroid.app.sync.SyncHelper;
+import com.moneydroid.app.util.PrefUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -39,6 +41,7 @@ public class AddExpenseFragment extends Fragment {
                R.id.edittext_people_involved);
        mAddButton = (Button)rootView.findViewById(
                R.id.add_expense);
+       mCurrency.setText(PrefUtils.getCurrency(this.getActivity()));
 
         mAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,10 +53,13 @@ public class AddExpenseFragment extends Fragment {
     }
 
     private void saveExpense() {
-        float amount = Float.valueOf(mAmount.getText().toString());
-        String desc = mDesc.getText().toString();
+        final float amount = Float.valueOf(mAmount.getText().toString());
+        final String desc = mDesc.getText().toString();
         String currency = mCurrency.getText().toString();
         String peopleInvolved = mPeopleInvolved.getText().toString();
+
+        final String people[] = peopleInvolved.split(",");
+        final float share = (float)amount / people.length;
 
 
 
@@ -61,18 +67,17 @@ public class AddExpenseFragment extends Fragment {
             @Override
             protected Void doInBackground(Object ... params) {
                 List<Split> splits = new LinkedList<Split>();
-                Split s1 = new Split();
-                s1.userid = "ashu";
-                s1.split = 100;
-                Split s2 = new Split();
-                s2.split = 300;
-                s2.userid = "amol";
-                splits.add(s1);
-                splits.add(s2);
+                for(String person : people) {
+                    Split split = new Split();
+                    split.userid = person;
+                    // TODO: make split a float
+                    split.split = (int)share;
+                    splits.add(split);
+                }
                 Transaction t = new Transaction();
-                t.desc = "mastkalandar";
-                t.currency = "inr";
-                t.amount = 400;
+                t.desc = desc;
+                t.currency = PrefUtils.getCurrency(AddExpenseFragment.this.getActivity());
+                t.amount = amount;
                 t.splits = splits;
                 List<Transaction> transactions = new LinkedList<Transaction>();
                 transactions.add(t);
