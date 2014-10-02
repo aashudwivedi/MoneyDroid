@@ -10,11 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Spinner;
+
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
 import com.moneydroid.app.R;
+import com.moneydroid.app.util.PrefUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -98,14 +101,19 @@ public class AccountActivity extends FragmentActivity {
                                  Bundle savedInstanceState) {
             final Activity activity = getActivity();
 
-            ViewGroup rootView = (ViewGroup) inflater.inflate(
+            final ViewGroup rootView = (ViewGroup) inflater.inflate(
                     R.layout.fragment_currency_chooser, container, false);
-            Button finishBtn = (Button)rootView.findViewById(R.id.btnFinish);
+            final Button finishBtn = (Button)rootView.findViewById(R.id.btnFinish);
 
             finishBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Spinner defaultCurrency = (Spinner)rootView.findViewById(
+                            R.id.default_currency_spinner);
+                    PrefUtils.setCurrency(DefaultCurrencyChooserFragment.this.getActivity(),
+                            defaultCurrency.getSelectedItem().toString());
                     ((AccountActivity)activity).finishSetup();
+
                 }
             });
             return rootView;
@@ -144,7 +152,7 @@ public class AccountActivity extends FragmentActivity {
     }
 
     private void finishSetup() {
-        startActivity(mFinishIntent);
         finish();
+        startActivity(mFinishIntent);
     }
 }
