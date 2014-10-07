@@ -35,11 +35,12 @@
     <string name="finish">Finish</string>
     <string name="amount">Amount</string>
     <string name="currency">Currency</string>
-    <string name="desc">Description</string>
+    <string name="desc">Enter some description of the transaction</string>
     <string name="people_involved">People Involved</string>
     <string name="add">Add</string>
     <string name="expense_list">Expense List</string>
     <string name="summery">Summery</string>
+    <string name="save">Save</string>
 
     <string name="action_people">Shared Between?</string>
     <string name="action_people_default">Select friends</string>

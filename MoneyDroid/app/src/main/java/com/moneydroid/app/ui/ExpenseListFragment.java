@@ -53,7 +53,9 @@ public class ExpenseListFragment extends ListFragment implements
         addExpenseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), AddExpenseActivity.class));
+                final Intent intent = new Intent(getActivity(), AddExpenseActivity.class);
+                intent.putExtra(AddExpenseActivity.DISPLAY_BACK_BUTTON, true);
+                startActivity(intent);
             }
         });
 

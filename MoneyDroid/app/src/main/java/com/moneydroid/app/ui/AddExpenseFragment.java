@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.Session;
 import com.facebook.model.GraphObject;
@@ -46,7 +47,7 @@ import static com.moneydroid.app.util.LogUtils.makeLogTag;
 /**
  * Created by ashu on 6/7/14.
  */
-public class AddExpenseFragment extends Fragment {
+public class AddExpenseFragment extends Fragment implements AddExpenseActivity.Callback{
     private EditText mAmount;
     private EditText mDesc;
     private EditText mCurrency;
@@ -66,8 +67,6 @@ public class AddExpenseFragment extends Fragment {
        mAmount = (EditText)rootView.findViewById(R.id.edittext_amount);
        mCurrency = (EditText)rootView.findViewById(R.id.edittext_currency);
        mDesc = (EditText)rootView.findViewById(R.id.edittext_description);
-       mPeopleInvolved = (EditText)rootView.findViewById(
-               R.id.edittext_people_involved);
        mAddButton = (Button)rootView.findViewById(
                R.id.add_expense);
        mCurrency.setText(PrefUtils.getCurrency(this.getActivity()));
@@ -129,6 +128,12 @@ public class AddExpenseFragment extends Fragment {
                 return null;
             }
         }.execute();
+    }
+
+    @Override
+    public void onSaveClicked() {
+        Toast.makeText(getActivity(), "save clicked", Toast.LENGTH_LONG).show();
+        saveExpense();
     }
 
     public class PeopleListElement extends BaseListElement {

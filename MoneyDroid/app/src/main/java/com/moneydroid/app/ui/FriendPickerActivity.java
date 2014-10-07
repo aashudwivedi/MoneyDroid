@@ -29,6 +29,7 @@ public class FriendPickerActivity  extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.picker);
 
+
         Bundle args = getIntent().getExtras();
         FragmentManager manager = getSupportFragmentManager();
         Fragment fragmentToShow = null;

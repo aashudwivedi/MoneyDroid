@@ -43,10 +43,12 @@
         </activity>
 
         <activity android:name=".ui.FriendPickerActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
             android:label="@string/app_name" />
 
         <activity android:name=".ui.AddExpenseActivity"
-            android:label="AddExpense"></activity>
+            android:label="AddExpense"
+            android:parentActivityName=".ui.MainActivity"></activity>
 
         <service
                 android:name=".sync.AuthenticatorService">
