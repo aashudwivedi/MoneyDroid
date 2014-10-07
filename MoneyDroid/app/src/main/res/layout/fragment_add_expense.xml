@@ -26,13 +26,6 @@
                 android:hint="@string/desc"
                 android:layout_height="wrap_content"/>
 
-        <Button
-                android:id="@+id/add_expense"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/add"/>
-
         <ListView
             android:id="@+id/selection_list"
             android:layout_width="fill_parent"

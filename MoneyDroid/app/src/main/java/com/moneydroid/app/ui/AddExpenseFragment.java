@@ -52,7 +52,6 @@ public class AddExpenseFragment extends Fragment implements AddExpenseActivity.C
     private EditText mDesc;
     private EditText mCurrency;
     private EditText mPeopleInvolved;
-    private Button mAddButton;
 
     private ListView selectedFrieldsListView;
     private List<BaseListElement> selectedListElements;
@@ -67,16 +66,6 @@ public class AddExpenseFragment extends Fragment implements AddExpenseActivity.C
        mAmount = (EditText)rootView.findViewById(R.id.edittext_amount);
        mCurrency = (EditText)rootView.findViewById(R.id.edittext_currency);
        mDesc = (EditText)rootView.findViewById(R.id.edittext_description);
-       mAddButton = (Button)rootView.findViewById(
-               R.id.add_expense);
-       mCurrency.setText(PrefUtils.getCurrency(this.getActivity()));
-
-       mAddButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveExpense();
-            }
-        });
 
        selectedFrieldsListView = (ListView) rootView.findViewById(R.id.selection_list);
 
