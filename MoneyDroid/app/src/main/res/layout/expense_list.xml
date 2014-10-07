@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/list"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:listitem="@layout/list_item_transaction">
+    android:layout_height="match_parent">
 
-</ListView>
+    <ListView
+        android:id="@android:id/list"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/list_item_transaction">
+    </ListView>
+
+    <Button
+        android:id="@+id/add_expense_button"
+        android:text="+"
+        android:layout_marginBottom="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"/>
+</FrameLayout>

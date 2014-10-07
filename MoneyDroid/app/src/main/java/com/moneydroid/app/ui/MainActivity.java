@@ -47,9 +47,6 @@ public class MainActivity extends BaseActivity implements
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.addTab(actionBar.newTab()
-                .setText(R.string.add)
-                .setTabListener(this));
-        actionBar.addTab(actionBar.newTab()
                 .setText(R.string.expense_list)
                 .setTabListener(this));
         actionBar.addTab(actionBar.newTab()
@@ -131,16 +128,14 @@ public class MainActivity extends BaseActivity implements
        public Fragment getItem(int position) {
            switch (position) {
                case 0:
-                   return new AddExpenseFragment();
-               case 1:
                    return new ExpenseListFragment();
-               case 2:
+               case 1:
                    return new ExpenseSummeryFragment();
            }
            return null;
        }
 
-        public int getCount() {return 3;}
+        public int getCount() {return 2;}
    }
 
     public void requestImmediateSync() {

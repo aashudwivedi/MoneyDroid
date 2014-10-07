@@ -1,5 +1,6 @@
 package com.moneydroid.app.ui;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -9,6 +10,8 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import com.moneydroid.app.R;
@@ -41,10 +44,20 @@ public class ExpenseListFragment extends ListFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //super.onCreateView(inflater, container, savedInstanceState);
-        ListView listView = (ListView)inflater.inflate(R.layout.expense_list, container, false);
+        FrameLayout root = (FrameLayout)inflater.inflate(
+                R.layout.expense_list, container, false);
+        ListView listView = (ListView)root.findViewById(android.R.id.list);
         listView.setAdapter(mTransactionAdapter);
-        return listView;
+
+        Button addExpenseButton = (Button)root.findViewById(R.id.add_expense_button);
+        addExpenseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), AddExpenseActivity.class));
+            }
+        });
+
+        return root;
     }
 
     @Override
@@ -66,7 +79,6 @@ public class ExpenseListFragment extends ListFragment implements
         }
 
         mTransactionAdapter.swapCursor(cursor);
-
     }
 
     @Override

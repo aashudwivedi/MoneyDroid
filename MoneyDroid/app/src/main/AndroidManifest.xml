@@ -45,6 +45,9 @@
         <activity android:name=".ui.FriendPickerActivity"
             android:label="@string/app_name" />
 
+        <activity android:name=".ui.AddExpenseActivity"
+            android:label="AddExpense"></activity>
+
         <service
                 android:name=".sync.AuthenticatorService">
             <intent-filter>
