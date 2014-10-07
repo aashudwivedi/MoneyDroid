@@ -91,7 +91,7 @@ public class AccountActivity extends FragmentActivity {
             LoginButton loginButton = (LoginButton) rootView.findViewById(
                     R.id.authButton);
             loginButton.setReadPermissions(Arrays.asList("public_profile",
-                    "friends_about_me"));
+                    "friends_about_me", "user_friends"));
             return rootView;
         }
     }

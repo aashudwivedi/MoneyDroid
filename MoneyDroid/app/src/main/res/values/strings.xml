@@ -41,4 +41,14 @@
     <string name="expense_list">Expense List</string>
     <string name="summery">Summery</string>
 
+    <string name="action_people">Shared Between?</string>
+    <string name="action_people_default">Select friends</string>
+
+    <string name="error_dialog_title">Error</string>
+    <string name="error_dialog_button_text">OK</string>
+
+    <string name="single_user_selected">%1$s</string>
+    <string name="two_users_selected">%1$s and %2$s</string>
+    <string name="multiple_users_selected">%1$s and %2$s others</string>
+
 </resources>
