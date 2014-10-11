@@ -31,6 +31,7 @@ public class TransactionsProvider extends ContentProvider {
     private static final int TRANSACTIONS_ID = 102;
     private static final int TRANSACTION_WITH_USER = 104;
     private static final int SPLITS = 105;
+    private static final int SPLIT_ID = 106;
 
     private static UriMatcher buildUriMatcher() {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -41,6 +42,7 @@ public class TransactionsProvider extends ContentProvider {
         matcher.addURI(authority, "transactions/*", TRANSACTIONS_ID);
         matcher.addURI(authority, "transactions/user/*", TRANSACTION_WITH_USER);
         matcher.addURI(authority, "splits", SPLITS);
+        matcher.addURI(authority, "splits/*", SPLIT_ID);
 
         return matcher;
     }
@@ -83,6 +85,10 @@ public class TransactionsProvider extends ContentProvider {
             case TRANSACTIONS_ID:
                 queryBuilder.setTables(Tables.TRANSACTIONS);
                 break;
+            case SPLITS:
+            case SPLIT_ID:
+                queryBuilder.setTables(Tables.SHARES);
+                break;
         }
         Cursor c = queryBuilder.query(db,
                 projection,
@@ -102,9 +108,11 @@ public class TransactionsProvider extends ContentProvider {
         switch (match) {
             case TRANSACTIONS:
                 db.insertOrThrow(Tables.TRANSACTIONS, null, values);
+                notifyChanage(uri, false);
                 return Transactions.buildTransactionUri(values.getAsInteger(Transactions.TRANSACTION_ID));
             case SPLITS:
                 db.insertOrThrow(Tables.SHARES, null, values);
+                notifyChanage(uri, false);
                 return Transactions.buildTransactionUri(values.getAsInteger(Splits.SPLIT_ID));
         }
         return null;
@@ -121,8 +129,10 @@ public class TransactionsProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case TRANSACTIONS:
+                notifyChanage(uri, false);
                 return db.delete(Tables.TRANSACTIONS, selection, selectionArgs);
             case SPLITS:
+                notifyChanage(uri, false);
                 return db.delete(Tables.SHARES, selection, selectionArgs);
             default:
                 throw new UnsupportedOperationException("Unsupported Operation");
@@ -133,10 +143,13 @@ public class TransactionsProvider extends ContentProvider {
     public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         final SQLiteDatabase db = mOpenHelper.getReadableDatabase();
         final int match = sUriMatcher.match(uri);
+        Log.d(TAG, "update requested for url = " + uri +"cv = " + values);
         switch (match) {
             case TRANSACTIONS:
+                notifyChanage(uri, false);
                 return db.update(Tables.TRANSACTIONS, values, selection, selectionArgs);
             case SPLITS:
+                notifyChanage(uri, false);
                 return db.update(Tables.SHARES, values, selection, selectionArgs);
             default:
                 throw  new UnsupportedOperationException("Unsupported operation");

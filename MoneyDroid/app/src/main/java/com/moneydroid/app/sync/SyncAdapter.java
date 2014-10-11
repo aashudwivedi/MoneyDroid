@@ -39,5 +39,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             mSyncHelper = new SyncHelper(mContext);
         }
         mSyncHelper.performSync();
+        LOGD(TAG, "sync done");
     }
 }

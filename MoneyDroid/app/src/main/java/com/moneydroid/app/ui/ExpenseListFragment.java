@@ -1,7 +1,9 @@
 package com.moneydroid.app.ui;
 
 import android.content.Intent;
+import android.database.ContentObserver;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.app.LoaderManager;
@@ -17,6 +19,7 @@ import android.widget.SimpleCursorAdapter;
 import com.moneydroid.app.R;
 import com.moneydroid.app.io.Transaction;
 import com.moneydroid.app.provider.TransactionContract;
+import com.moneydroid.app.provider.TransactionsProvider;
 
 import static com.moneydroid.app.provider.TransactionContract.*;
 
@@ -25,8 +28,9 @@ import static com.moneydroid.app.provider.TransactionContract.*;
  */
 public class ExpenseListFragment extends ListFragment implements
         LoaderManager.LoaderCallbacks<Cursor>{
-
     SimpleCursorAdapter mTransactionAdapter;
+    ContentObserver mContentObserver;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,24 @@ public class ExpenseListFragment extends ListFragment implements
                 TransactionQuery.PROJECTION,
                 new int[]{0, R.id.transaction_amount, R.id.transaction_name});
         getLoaderManager().initLoader(0, null, this);
+
+        mContentObserver = new ContentObserver(null) {
+            @Override
+            public void onChange(boolean selfChange) {
+                super.onChange(selfChange);
+                getLoaderManager().restartLoader(0, null, ExpenseListFragment.this);
+            }
+
+            @Override
+            public void onChange(boolean selfChange, Uri uri) {
+                super.onChange(selfChange, uri);
+                getLoaderManager().restartLoader(0, null, ExpenseListFragment.this);
+            }
+        };
+
+        getActivity().getContentResolver().registerContentObserver(
+                TransactionContract.BASE_CONTENT_URI,
+                false, mContentObserver);
     }
 
     @Override
@@ -71,7 +93,6 @@ public class ExpenseListFragment extends ListFragment implements
                 null, // current selection is null, will be changed later
                 null,
                 null);
-
     }
 
     @Override
@@ -79,7 +100,6 @@ public class ExpenseListFragment extends ListFragment implements
         if(!isAdded()) {
             return;
         }
-
         mTransactionAdapter.swapCursor(cursor);
     }
 

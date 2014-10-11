@@ -20,6 +20,7 @@ public class TransactionContract {
         String AMOUNT = "transaction_amount";
         String CURRENCY = "currency";
         String DESC = "transaction_desc";
+        String IS_TRANSIENT= "is_transient";
     }
 
     public interface SplitsColumns {

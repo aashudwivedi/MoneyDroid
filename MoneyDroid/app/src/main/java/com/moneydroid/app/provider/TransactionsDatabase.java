@@ -39,12 +39,13 @@ public class TransactionsDatabase extends SQLiteOpenHelper {
                 + TransactionColumns.TRANSACTION_ID + " INTEGER NOT NULL,"
                 + TransactionColumns.AMOUNT + " INTEGER NOT NULL,"
                 + TransactionColumns.DESC + " TEXT,"
-                + TransactionColumns.CURRENCY + " TEXT )");
-                //+ "UNIQUE (" + TransactionColumns.TRANSACTION_ID + ") )");
+                + TransactionColumns.CURRENCY + " TEXT,"
+                + TransactionColumns.IS_TRANSIENT + " INTEGER NOT NULL )");
+        //+ "UNIQUE (" + TransactionColumns.TRANSACTION_ID + ") )");
 
         db.execSQL("CREATE TABLE " + Tables.SHARES + " ("
                 + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + TransactionContract.SplitsColumns.SPLIT_ID + " INGETER NOT NULL,"
+                + TransactionContract.SplitsColumns.SPLIT_ID + " INTEGER NOT NULL,"
                 + TransactionContract.SplitsColumns.TRANSACTION_ID + " INTEGER NOT NULL,"
                 + TransactionContract.SplitsColumns.USER_ID + " STRING NOT NULL,"
                 + TransactionContract.SplitsColumns.SHARE + " INTEGER NOT NULL )");
