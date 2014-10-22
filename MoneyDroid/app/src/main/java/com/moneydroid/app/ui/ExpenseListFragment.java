@@ -3,6 +3,7 @@ package com.moneydroid.app.ui;
 import android.content.Intent;
 import android.database.ContentObserver;
 import android.database.Cursor;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -12,16 +13,15 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import com.moneydroid.app.R;
-import com.moneydroid.app.io.Transaction;
-import com.moneydroid.app.provider.TransactionContract;
-import com.moneydroid.app.provider.TransactionsProvider;
 
-import static com.moneydroid.app.provider.TransactionContract.*;
+import com.moneydroid.app.R;
+import com.moneydroid.app.provider.TransactionContract;
+
+import static com.moneydroid.app.provider.TransactionContract.Transactions;
 
 /**
  * Created by ashu on 23/5/14.
@@ -71,7 +71,12 @@ public class ExpenseListFragment extends ListFragment implements
         ListView listView = (ListView)root.findViewById(android.R.id.list);
         listView.setAdapter(mTransactionAdapter);
 
-        Button addExpenseButton = (Button)root.findViewById(R.id.add_expense_button);
+        ImageButton addExpenseButton = (ImageButton)root.findViewById(
+                R.id.add_expense_button);
+        //need to mutate ?
+        addExpenseButton.getDrawable().setColorFilter(0xff33B5E5,
+                PorterDuff.Mode.MULTIPLY);
+
         addExpenseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -12,9 +12,10 @@
         tools:listitem="@layout/list_item_transaction">
     </ListView>
 
-    <Button
+    <ImageButton
         android:id="@+id/add_expense_button"
-        android:text="+"
+        android:src="@drawable/ic_add_circle_white_48dp"
+        android:background="@android:color/transparent"
         android:layout_marginBottom="50dp"
         android:layout_marginRight="50dp"
         android:layout_width="wrap_content"
