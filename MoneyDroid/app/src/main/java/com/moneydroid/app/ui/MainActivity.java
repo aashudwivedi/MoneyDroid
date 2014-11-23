@@ -1,24 +1,19 @@
 package com.moneydroid.app.ui;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.moneydroid.app.R;
-import com.moneydroid.app.provider.TransactionContract;
 
-import static com.moneydroid.app.util.LogUtils.LOGE;
+import com.moneydroid.app.R;
+import com.moneydroid.app.sync.SyncHelper;
+
 import static com.moneydroid.app.util.LogUtils.makeLogTag;
 
 public class MainActivity extends BaseActivity implements
@@ -27,12 +22,6 @@ public class MainActivity extends BaseActivity implements
     private ViewPager mViewPager;
 
     private static final String TAG = makeLogTag(MainActivity.class);
-
-    public static final String ACCOUNT_TYPE = "com.moneydroid";
-
-    public static final String ACCOUNT = "dummyaccount";
-
-    Account mAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +42,7 @@ public class MainActivity extends BaseActivity implements
                 .setText(R.string.summery)
                 .setTabListener(this));
 
-        mAccount = createSyncAccount(this);
-        requestImmediateSync();
+        SyncHelper.requestImmediateSync(this);
     }
 
 
@@ -76,23 +64,9 @@ public class MainActivity extends BaseActivity implements
             return true;
         }
         if(id == R.id.perform_sync) {
-            requestImmediateSync();
+            SyncHelper.requestSyncDebuggable(this);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private static Account createSyncAccount(Context context) {
-        Account newAccount = new Account(
-                ACCOUNT, ACCOUNT_TYPE);
-        AccountManager accountManager =
-                (AccountManager) context.getSystemService(
-                        ACCOUNT_SERVICE);
-        if(accountManager.addAccountExplicitly(newAccount, null, null)) {
-
-        } else {
-            LOGE(TAG, "account is not created");
-        }
-        return newAccount;
     }
 
     @Override
@@ -140,23 +114,6 @@ public class MainActivity extends BaseActivity implements
 
         public int getCount() {return 2;}
    }
-
-    public void requestImmediateSync() {
-        Bundle settingsBundle = new Bundle();
-        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
-
-        ContentResolver.setSyncAutomatically(mAccount, TransactionContract.CONTENT_AUTHORITY, true);
-
-
-        if (ContentResolver.isSyncPending(mAccount, TransactionContract.CONTENT_AUTHORITY)  ||
-                ContentResolver.isSyncActive(mAccount, TransactionContract.CONTENT_AUTHORITY)) {
-            Log.i("ContentResolver", "SyncPending, canceling");
-            ContentResolver.cancelSync(mAccount, TransactionContract.CONTENT_AUTHORITY);
-        }
-
-        ContentResolver.requestSync(mAccount, TransactionContract.CONTENT_AUTHORITY, settingsBundle);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

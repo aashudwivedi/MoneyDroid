@@ -56,4 +56,9 @@ public class TransactionContract {
             return CONTENT_URI.buildUpon().appendPath(String.valueOf(splitId)).build();
         }
     }
+
+    public static String getIdFromUri(Uri uri) {
+        return uri.getPathSegments().get(1);
+    }
+
 }

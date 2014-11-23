@@ -6,25 +6,39 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-        <EditText
-                android:id="@+id/edittext_amount"
-                android:hint="@string/amount"
-                android:layout_width="fill_parent"
-                android:inputType="phone"
-                android:digits="1234567890."
-                android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <EditText
-                android:id="@+id/edittext_currency"
-                android:hint="@string/currency"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"/>
+            android:id="@+id/edittext_amount"
+            android:hint="@string/amount"
+            android:layout_width="fill_parent"
+            android:inputType="phone"
+            android:digits="1234567890."
+            android:layout_height="wrap_content"/>
+
+        <Spinner
+            android:id="@+id/spinner_currency"
+            android:entries="@array/currencies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
 
         <EditText
                 android:id="@+id/edittext_description"
                 android:layout_width="fill_parent"
                 android:hint="@string/desc"
                 android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/select_friends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="select friends"/>
 
         <ListView
             android:id="@+id/selection_list"

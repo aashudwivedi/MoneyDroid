@@ -46,6 +46,7 @@ public class AddExpenseActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 mCallback.onSaveClicked();
+                finish();
             }
         });
 
